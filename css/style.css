@@ -1,0 +1,52 @@
+button {
+    min-width: 30px;
+    min-height: 30px;
+    outline: none;
+    margin: 4px;
+    border-radius: 4px;
+    background-color: #17aaaa;
+    color: #f4f4f4;
+    border: solid 1px #17aaaa;
+}
+
+button:hover {
+    cursor: pointer;
+    filter: brightness(0.8);
+}
+
+.btn-save {
+    width: 40%;
+    padding: 0;
+}
+
+.btn-clear {
+    background-color: #f33535;
+    width: 40%;
+    padding: 0;
+    border: solid 1px #f33535;
+}
+
+
+label {
+    border: none;
+    outline: none;
+    position: relative;
+    margin: 0 0 20px 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+input {
+    margin: 4px;
+    border: none;
+    outline: none;
+    padding: 10px 5px 8px 5px;
+    border-bottom: solid 2px #17aaaa;
+    width: 180px;
+    text-align: center;
+    color: #414141;
+}
+
+ul {
+    list-style-type: none;
+}
