@@ -119,6 +119,7 @@ function saveContextArray() {
         });
     }
     chrome.runtime.sendMessage({fn: "setContextArray", value: contextArrayToSave});
+    window.close();
 }
 
 
