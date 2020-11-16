@@ -30,7 +30,6 @@ let background = {
                         details.requestHeaders.push({name: param.name, value: param.value});
                     })
                 }
-                //details.requestHeaders.push({name: 'APIKEY', value: 'sm-services-80ecfacb-9129-462b-8d70-d9c142287344'});
                 return {requestHeaders: details.requestHeaders};
             },
             {urls: ["<all_urls>"]},
