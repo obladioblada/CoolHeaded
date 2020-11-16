@@ -21,7 +21,7 @@ let background = {
                 console.log("checking filters")
                 if(contextArray !== null) {
                     console.log("filtering")
-                    const headerParams = contextArray.filter((context) => details.url.includes(context.filter));
+                    const headerParams = contextArray.filter((context) => details.url.match(context.filter));
                     console.log(headerParams);
                     headerParams.forEach((param) => {
                         console.log(param)
