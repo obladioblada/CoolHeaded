@@ -5,6 +5,7 @@
 'use strict';
 
 let contextArray = [];
+let anyMatchRegex = "(.*)"
 
 let background = {
 
@@ -18,15 +19,13 @@ let background = {
 
         chrome.webRequest.onBeforeSendHeaders.addListener(
             function (details) {
-                console.log("checking filters")
                 if(contextArray !== null) {
-                    console.log("filtering")
-                    const headerParams = contextArray.filter((context) => details.url.match(context.filter));
-                    console.log(headerParams);
+                    const headerParams = contextArray.filter((context) => {
+                        const anyMatchedString = context.filter.replace(/\*/g, anyMatchRegex);
+                        const regex = escapeRegExp(anyMatchedString);
+                        return details.url.match(regex) !== null
+                    });
                     headerParams.forEach((param) => {
-                        console.log(param)
-                        console.log("Matched url: adding param");
-                        console.log({name: param.name, value: param.value});
                         details.requestHeaders.push({name: param.name, value: param.value});
                     })
                 }
@@ -35,38 +34,28 @@ let background = {
             {urls: ["<all_urls>"]},
             ["blocking", "requestHeaders"]
         );
-
-        chrome.runtime.onConnect.addListener(function (externalPort) {
-            externalPort.onDisconnect.addListener(function () {
-                console.log(contextArray);
-                console.log("onDisconnect")
-            })
-            console.log("onConnect")
-        })
     },
 
     setContextArray(request, sender, sendResponse) {
-        console.log(request.value);
-        console.log(Array.isArray(request.value));
         contextArray = request.value;
-        console.log(contextArray);
         sendResponse({status: "ok"});
         return true;
     },
 
     getContextArray(request, sender, sendResponse) {
-        console.log("passing context array")
-        console.log(contextArray);
         sendResponse(contextArray);
         return true;
     },
 
     clearContextArray(request, sender, sendResponse) {
-        console.log("clearing array");
         contextArray = [];
         sendResponse({status: "ok", value: contextArray });
         return true;
     }
+}
+
+function escapeRegExp(string) {
+    return string.replace(/[\/]/g, '\\$&'); // $& means the whole matched string
 }
 
 background.init()

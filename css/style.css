@@ -15,13 +15,19 @@ button:hover {
 }
 
 .btn-save {
-    width: 40%;
+    width: 30%;
     padding: 0;
+}
+
+.btn-delete {
+    background-color: #f33535;
+    margin-left: 4px;
+    border: solid 1px #f33535;
 }
 
 .btn-clear {
     background-color: #f33535;
-    width: 40%;
+    width: 30%;
     padding: 0;
     border: solid 1px #f33535;
 }
@@ -42,7 +48,7 @@ input {
     outline: none;
     padding: 10px 5px 8px 5px;
     border-bottom: solid 2px #17aaaa;
-    width: 180px;
+    width: 160px;
     text-align: center;
     color: #414141;
 }
