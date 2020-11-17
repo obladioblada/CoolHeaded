@@ -55,6 +55,7 @@ const tagType = {
 }
 
 let contextArray = [];
+let buttonsDiv;
 
 
 function newContext() {
@@ -64,6 +65,7 @@ function newContext() {
     createRow(li, contextArray.length)
     ul.appendChild(li);
     contextArray.push({})
+    buttonsDiv.style.display = 'inherit';
 }
 
 
@@ -72,16 +74,19 @@ function createRow(li, row) {
     let nameInput = document.createElement("input");
     nameInput.id = tagType.NAME + tag.INPUT + row;
     nameInput.placeholder = "name"
+    nameInput.className = "input-name";
     nameInput.type = "text";
 
     let valueInput = document.createElement("input");
     valueInput.id = tagType.VALUE + tag.INPUT + row;
     valueInput.placeholder = "value"
+    valueInput.className = "input-value";
     valueInput.type = "text";
 
     let filterInput = document.createElement("input");
     filterInput.id = tagType.FILTER + tag.INPUT + row;
     filterInput.placeholder = "filter";
+    filterInput.className = "input-filter";
     filterInput.type = "text";
 
     let deleteButton = document.createElement("button");
@@ -100,6 +105,10 @@ function createRow(li, row) {
 
 function deleteRow() {
     const row = document.getElementById(this.id).parentElement;
+    console.log(row.parentElement)
+    if (row.parentElement.childElementCount === 1){
+        buttonsDiv.style.display = 'none';
+    }
     row.remove();
 }
 
@@ -117,7 +126,11 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('new_context').addEventListener('click', newContext);
         document.getElementById('save').addEventListener('click', saveContextArray);
         document.getElementById('clear').addEventListener('click', clear);
+        buttonsDiv = document.getElementById('buttons');
         loadContextArray()
+        if (contextArray.length === 0) {
+            buttonsDiv.style.display = 'none';
+        }
     }
 );
 
@@ -128,6 +141,7 @@ function clear() {
             contextArray = [];
             let ul = document.getElementById("context_list");
             ul.innerHTML = '';
+            buttonsDiv.style.display = 'none';
         }
     });
 }

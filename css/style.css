@@ -1,17 +1,30 @@
+body {
+    margin: 0;
+    width: 700px;
+    height:40px
+}
+
 button {
     min-width: 30px;
     min-height: 30px;
     outline: none;
     margin: 4px;
-    border-radius: 4px;
     background-color: #17aaaa;
     color: #f4f4f4;
     border: solid 1px #17aaaa;
+    border-radius: 0;
 }
 
 button:hover {
     cursor: pointer;
     filter: brightness(0.8);
+}
+
+.btn-add {
+    font-size: x-large;
+    width: 100%;
+    height: 50px;
+    margin: 0;
 }
 
 .btn-save {
@@ -20,9 +33,10 @@ button:hover {
 }
 
 .btn-delete {
-    background-color: #f33535;
-    margin-left: 4px;
-    border: solid 1px #f33535;
+    margin-top: 15px;
+    margin-left: 15px;
+    border: solid 1px #ffffff;
+    font-size: x-large;
 }
 
 .btn-clear {
@@ -48,11 +62,29 @@ input {
     outline: none;
     padding: 10px 5px 8px 5px;
     border-bottom: solid 2px #17aaaa;
-    width: 160px;
+    width: 120px;
     text-align: center;
     color: #414141;
+}
+
+.input-name {
+}
+
+.input-value {
+}
+
+.input-filter {
+    width: 300px;
 }
 
 ul {
     list-style-type: none;
 }
+
+.btn-not-visible {
+    display: inherit;
+}
+.btn-not-visible {
+   display: none;
+}
+
