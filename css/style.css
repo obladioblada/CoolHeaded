@@ -1,7 +1,20 @@
 body {
     margin: 0;
     width: 700px;
-    height:40px
+    height: 40px
+}
+
+ul{
+    padding: 0;
+    overflow-y: scroll;
+    margin: 0;
+    text-align: center;
+}
+
+li {
+    background-color: #17aaaa;
+    width: 100%;
+    padding-bottom: 10px;
 }
 
 button {
@@ -34,7 +47,7 @@ button:hover {
 
 .btn-delete {
     margin-top: 15px;
-    margin-left: 15px;
+    margin-left: 7px;
     border: solid 1px #ffffff;
     font-size: x-large;
 }
@@ -62,7 +75,7 @@ input {
     outline: none;
     padding: 10px 5px 8px 5px;
     border-bottom: solid 2px #17aaaa;
-    width: 120px;
+    width: 145px;
     text-align: center;
     color: #414141;
 }
@@ -84,7 +97,8 @@ ul {
 .btn-not-visible {
     display: inherit;
 }
+
 .btn-not-visible {
-   display: none;
+    display: none;
 }
 

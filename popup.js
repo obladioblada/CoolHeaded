@@ -116,6 +116,9 @@ function deleteRow() {
 function loadContextArray() {
     chrome.runtime.sendMessage({fn: "getContextArray"}, function (ca) {
         fillRows(ca)
+        if (ca.length === 0) {
+            buttonsDiv.style.display = 'none';
+        }
         contextArray = ca;
     });
 }
@@ -128,9 +131,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('clear').addEventListener('click', clear);
         buttonsDiv = document.getElementById('buttons');
         loadContextArray()
-        if (contextArray.length === 0) {
-            buttonsDiv.style.display = 'none';
-        }
     }
 );
 
