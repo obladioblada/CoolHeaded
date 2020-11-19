@@ -5,7 +5,12 @@
 'use strict';
 
 let contextArray = [];
-let anyMatchRegex = "(.*)"
+let anyMatchRegex = "(.*)";
+
+function escapeRegExp(string) {
+    return string.replace(/[\/]/g, '\\$&'); // $& means the whole matched string
+}
+
 
 let background = {
 
@@ -19,7 +24,7 @@ let background = {
 
         chrome.webRequest.onBeforeSendHeaders.addListener(
             function (details) {
-                if(contextArray !== null) {
+                if (contextArray !== null) {
                     const headerParams = contextArray.filter((context) => {
                         const anyMatchedString = context.filter.replace(/\*/g, anyMatchRegex);
                         const regex = escapeRegExp(anyMatchedString);
@@ -34,28 +39,6 @@ let background = {
             {urls: ["<all_urls>"]},
             ["blocking", "requestHeaders"]
         );
-    },
-
-    setContextArray(request, sender, sendResponse) {
-        contextArray = request.value;
-        sendResponse({status: "ok"});
-        return true;
-    },
-
-    getContextArray(request, sender, sendResponse) {
-        sendResponse(contextArray);
-        return true;
-    },
-
-    clearContextArray(request, sender, sendResponse) {
-        contextArray = [];
-        sendResponse({status: "ok", value: contextArray });
-        return true;
     }
 }
-
-function escapeRegExp(string) {
-    return string.replace(/[\/]/g, '\\$&'); // $& means the whole matched string
-}
-
 background.init()

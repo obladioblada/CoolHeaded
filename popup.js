@@ -58,6 +58,25 @@ let contextArray = [];
 let buttonsDiv;
 
 
+
+document.addEventListener('DOMContentLoaded', function () {
+        contextArray = [];
+        document.getElementById('new_context').addEventListener('click', newContext);
+        document.getElementById('clear').addEventListener('click', clear);
+        buttonsDiv = document.getElementById('buttons');
+        chrome.storage.sync.get(['coolheaded_context_array'], function (result) {
+            console.log(result);
+            console.log(result.coolheaded_context_array)
+            contextArray = result.coolheaded_context_array;
+            fillRows(contextArray)
+            if (contextArray.length === 0) {
+                buttonsDiv.style.display = 'none';
+            }
+        });
+    }
+);
+
+
 function newContext() {
     let ul = document.getElementById("context_list");
     let li = document.createElement("li");
@@ -66,6 +85,7 @@ function newContext() {
     ul.appendChild(li);
     contextArray.push({})
     buttonsDiv.style.display = 'inherit';
+    saveContextArray();
 }
 
 
@@ -76,18 +96,21 @@ function createRow(li, row) {
     nameInput.placeholder = "name"
     nameInput.className = "input-name";
     nameInput.type = "text";
+    nameInput.onkeyup = saveContextArray;
 
     let valueInput = document.createElement("input");
     valueInput.id = tagType.VALUE + tag.INPUT + row;
     valueInput.placeholder = "value"
     valueInput.className = "input-value";
     valueInput.type = "text";
+    valueInput.onkeyup = saveContextArray;
 
     let filterInput = document.createElement("input");
     filterInput.id = tagType.FILTER + tag.INPUT + row;
     filterInput.placeholder = "filter";
     filterInput.className = "input-filter";
     filterInput.type = "text";
+    filterInput.onkeyup = saveContextArray;
 
     let deleteButton = document.createElement("button");
     deleteButton.id = tagType.DELETE + tag.BUTTON + row;
@@ -106,45 +129,23 @@ function createRow(li, row) {
 function deleteRow() {
     const row = document.getElementById(this.id).parentElement;
     console.log(row.parentElement)
-    if (row.parentElement.childElementCount === 1){
+    if (row.parentElement.childElementCount === 1) {
         buttonsDiv.style.display = 'none';
     }
     row.remove();
+    saveContextArray();
 }
-
-
-function loadContextArray() {
-    chrome.runtime.sendMessage({fn: "getContextArray"}, function (ca) {
-        fillRows(ca)
-        if (ca.length === 0) {
-            buttonsDiv.style.display = 'none';
-        }
-        contextArray = ca;
-    });
-}
-
-
-document.addEventListener('DOMContentLoaded', function () {
-        contextArray = [];
-        document.getElementById('new_context').addEventListener('click', newContext);
-        document.getElementById('save').addEventListener('click', saveContextArray);
-        document.getElementById('clear').addEventListener('click', clear);
-        buttonsDiv = document.getElementById('buttons');
-        loadContextArray()
-    }
-);
 
 
 function clear() {
-    chrome.runtime.sendMessage({fn: "clearContextArray"}, function (response) {
-        if (response.status === "ok") {
-            contextArray = [];
-            let ul = document.getElementById("context_list");
-            ul.innerHTML = '';
-            buttonsDiv.style.display = 'none';
-        }
+    chrome.storage.sync.set({coolheaded_context_array:  []}, function() {
+        contextArray = [];
+        let ul = document.getElementById("context_list");
+        ul.innerHTML = '';
+        buttonsDiv.style.display = 'none';
     });
 }
+
 
 function fillRows(contextArray) {
     let nameInput;
@@ -156,9 +157,9 @@ function fillRows(contextArray) {
         createRow(li, i);
         ul.appendChild(li);
         [nameInput, valueInput, filterInput] = getContextInputs(i);
-         nameInput.value = contextArray[i].name;
-         valueInput.value = contextArray[i].value;
-         filterInput.value = contextArray[i].filter;
+        nameInput.value = contextArray[i].name;
+        valueInput.value = contextArray[i].value;
+        filterInput.value = contextArray[i].filter;
     }
 }
 
@@ -178,8 +179,11 @@ function saveContextArray() {
             filter: filterInput.value
         });
     }
-    contextArray = contextArrayToSave;
-    chrome.runtime.sendMessage({fn: "setContextArray", value: contextArray});
+    chrome.storage.sync.set({coolheaded_context_array:  contextArrayToSave}, function() {
+        console.log('Value is set to ' + contextArrayToSave);
+        contextArray = contextArrayToSave;
+        return true;
+    });
 }
 
 
@@ -187,6 +191,6 @@ function getContextInputs(i) {
     const nameInput = document.getElementById(tagType.NAME + tag.INPUT + i);
     const valueInput = document.getElementById(tagType.VALUE + tag.INPUT + i);
     const filterInput = document.getElementById(tagType.FILTER + tag.INPUT + i);
-    return [nameInput, valueInput, filterInput] ;
+    return [nameInput, valueInput, filterInput];
 }
 
