@@ -4,17 +4,25 @@ web extension for header parameters injection
 ### Installation
 
 #### chrome:
-
 - enter "chrome://extensions/" in the URL bar
+- enable Developer mode if disabled
 - click "Load Unpacked"
 - import the extension directory
  
 #### firefox:
 
+You need to use chrome to create a .crx file. In order to do that:
+- enter "chrome://extensions/" in the URL bar
+- enable Developer mode if disabled
+- click pack extension
+- load the coolHeaded directory
+
+Once you have the Coolheaded.crx file:
+
 - enter "about:debugging" in the URL bar
 - click "This Firefox"
 - click "Load Temporary Add-on"
-- open the extension's directory and select the .crx file inside the extension.
+- load the Coolheaded.crx file
 
 ### Filter 
 
