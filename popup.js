@@ -58,7 +58,6 @@ let contextArray = [];
 let buttonsDiv;
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
         contextArray = [];
         document.getElementById('new_context').addEventListener('click', newContext);
@@ -67,9 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.storage.sync.get(['coolheaded_context_array'], function (result) {
             console.log(result);
             console.log(result.coolheaded_context_array)
-            contextArray = result.coolheaded_context_array;
-            fillRows(contextArray)
-            if (contextArray.length === 0) {
+            if (result.coolheaded_context_array !== undefined) {
+                contextArray = result.coolheaded_context_array;
+                fillRows(contextArray)
+                if (contextArray.length === 0) {
+                    buttonsDiv.style.display = 'none';
+                }
+            } else {
                 buttonsDiv.style.display = 'none';
             }
         });
@@ -138,7 +141,7 @@ function deleteRow() {
 
 
 function clear() {
-    chrome.storage.sync.set({coolheaded_context_array:  []}, function() {
+    chrome.storage.sync.set({coolheaded_context_array: []}, function () {
         contextArray = [];
         let ul = document.getElementById("context_list");
         ul.innerHTML = '';
@@ -179,8 +182,9 @@ function saveContextArray() {
             filter: filterInput.value
         });
     }
-    chrome.storage.sync.set({coolheaded_context_array:  contextArrayToSave}, function() {
+    chrome.storage.sync.set({coolheaded_context_array: contextArrayToSave}, function () {
         console.log('Value is set to ' + contextArrayToSave);
+        chrome.runtime.sendMessage({fn: "setContextArray", value: contextArrayToSave});
         contextArray = contextArrayToSave;
         return true;
     });

@@ -5,7 +5,9 @@
   "permissions": [
     "webRequest",
     "webRequestBlocking",
-    "storage"
+    "storage",
+    "tabs",
+    "*://*/*"
   ],
   "background": {
     "scripts": ["background.js"],

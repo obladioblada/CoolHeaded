@@ -26,6 +26,9 @@ let background = {
             function (details) {
                 if (contextArray !== null) {
                     const headerParams = contextArray.filter((context) => {
+                        if(context.filter === undefined || context.filter === "") {
+                            return false;
+                        }
                         const anyMatchedString = context.filter.replace(/\*/g, anyMatchRegex);
                         const regex = escapeRegExp(anyMatchedString);
                         return details.url.match(regex) !== null
@@ -39,6 +42,18 @@ let background = {
             {urls: ["<all_urls>"]},
             ["blocking", "requestHeaders"]
         );
-    }
+
+        chrome.storage.sync.get(['coolheaded_context_array'], function (result) {
+            console.log(result.coolheaded_context_array)
+            if (result.coolheaded_context_array !== undefined) {
+                contextArray = result.coolheaded_context_array;
+            }
+        });
+    },
+
+    setContextArray(request, sender, sendResponse) {
+        contextArray = request.value;
+        return true;
+    },
 }
 background.init()
